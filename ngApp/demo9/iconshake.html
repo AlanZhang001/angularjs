@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>图片抖动</title>
+        <style type="text/css">
+            .iconshake{
+                max-width: 1000px;
+                margin: 0 auto;
+                padding-top: 40px;
+            }
+            .nav-item{
+                display: block;
+                float: left;
+                margin-bottom: 30px;
+                width: 20%;
+
+            }
+            .nav-icon-warp{
+                text-align: center;
+                display: block;
+                height: 52px;
+                margin-bottom: 30px;
+
+            }
+            .nav-tips{
+                font-family: 'Cabin Condensed', sans-serif;
+                font-weight: 700;
+                text-transform: uppercase;
+                font-size: 20px;
+                text-align: center;
+                margin: 0;
+                padding: 0 20px;
+            }
+            .nav-icon-warp:hover img{
+                animation:iconshake .5s 1;
+            }
+            @keyframes iconshake{
+                0%,100%{transform:rotate(0deg);}
+                25%{transform:rotate(25deg);}
+                50%{transform:rotate(-25deg);}
+                75%{transform:rotate(5deg);}
+                85%{transform:rotate(-5deg);}
+            }
+        </style>
+    </head>
+    <body>
+    <div ng-app="myApp" ng-controller="iconShanke" class="iconshake">
+        <a ng-repeat="item in navs" href={{item.href}} class="nav-item">
+            <span class="nav-icon-warp">
+                <img src="{{item.src}}" alt="icon"/>
+            </span>
+            <p class="nav-tips">{{item.desc}}</p>
+        </a>
+    </div>
+    </body>
+    <script type="text/javascript" src="../../angular.min.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("myApp",[]);
+        app.controller("iconShanke",function ($scope,$http) {
+            $http({
+                responseType:"json",
+                url:"data.json",
+                cache:false,
+                method:"get"
+            }).then(function (response) {
+                $scope.navs = response.data.list;
+            },function () {
+                 console.log(arguments);
+            });
+        });
+    </script>
+</html>

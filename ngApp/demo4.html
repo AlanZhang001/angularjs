@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>epression</title>
+	</head>
+	<body>	
+		<!--
+		类似于 JavaScript 表达式，AngularJS 表达式可以包含字母，操作符，变量。
+		与 JavaScript 表达式不同，AngularJS 表达式可以写在 HTML 中。
+		与 JavaScript 表达式不同，AngularJS 表达式不支持条件判断，循环及异常。
+		与 JavaScript 表达式不同，AngularJS 表达式支持过滤器。
+		-->
+		<div ng-app ng-init="arr=[1,2,3,4,5,6,7]">
+			<span>{{arr[arr[1]]}}</span>
+		</div>
+	</body>
+	<script type="text/javascript" src="../angular.min.js"></script>
+</html>

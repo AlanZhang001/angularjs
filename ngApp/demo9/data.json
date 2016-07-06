@@ -1,0 +1,23 @@
+{
+    "list": [{
+        "href": "http://ww.baidu.com/",
+        "desc": "additives",
+        "src": "src/additives.png"
+    }, {
+        "href": "http://ww.baidu.com/",
+        "desc": "fleet",
+        "src": "src/fleet.png"
+    }, {
+        "href": "http://ww.baidu.com/",
+        "desc": "installed",
+        "src": "src/installed.png"
+    }, {
+        "href": "http://ww.baidu.com/",
+        "desc": "maintenance",
+        "src": "src/maintenance.png"
+    }, {
+        "href": "http://ww.baidu.com/",
+        "desc": "service",
+        "src": "src/service.png"
+    }]
+}

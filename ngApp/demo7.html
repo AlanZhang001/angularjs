@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>filter</title>
+	</head>
+	<body>
+		<div ng-app="myApp" ng-controller="myController">
+			<input type="text" ng-model="filterValue"/>
+			<div ng-repeat="x in names |filter:filterValue | orderBy:'country'">
+				{{x.name + "--" +(x.country|lowercase)}}
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../angular.min.js"></script>
+	<script type="text/javascript">
+		var app = angular.module("myApp",[]);
+
+	    app.controller("myController",function ($scope) {
+			
+			$scope.names = [
+  				{
+  					name:"A",
+  					country:"China",
+  				},{
+  					name:"B",
+  					country:"America",
+  				},{
+  					name:"C",
+  					country:"English"
+  				}
+			];
+
+		});
+	</script>
+</html>

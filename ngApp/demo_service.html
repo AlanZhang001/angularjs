@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>service</title>
+    </head>
+    <body>
+        <div ng-app="myApp" ng-controller="myController">
+            {{name}}
+        </div>
+    </body>
+    <script type="text/javascript" src="../angular.min.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("myApp",[]);
+
+        // 自定义服务
+        app.service("reverse",function () {
+            this.reverseStr = function (str) {
+                return String.prototype.split.call(str,"").reverse().join("");
+            };
+        });
+
+        app.controller("myController",function ($scope,reverse) {
+            $scope.name =  reverse.reverseStr("alan");
+        });
+    </script>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>创建自定义的指令</title>
+	</head>
+	<body ng-app="myApp">
+		<!--通过属性方式来调用指令-->
+		<div self-direction></div>
+		<!--通过类名方式来调用指定-->
+		<div class='self-direction2'></div>
+
+	</body>
+	<script type="text/javascript" src="../angular.min.js"></script>
+	<script type="text/javascript">
+		var app = angular.module("myApp",[]);
+		app.directive("selfDirection",function () {
+			return {
+				template:"<h1>太厉害了</h1>"
+			};
+		});
+
+		app.directive("selfDirection2",function () {
+			return {
+				/*你必须设置 restrict 的值为 "C" 才能通过类名来调用指令。*/
+				restrict : "C",
+				template:"<h1>通过类名方式来调用指定</h1>"
+			};
+		});
+	</script>
+</html>

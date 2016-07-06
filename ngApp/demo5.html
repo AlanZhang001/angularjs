@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>directives</title>
+	</head>
+	<body>
+		<div ng-app="myApp" ng-controller="myController">
+			<div ng-repeat='x in names'>
+				{{x.name + "--" + x.age}}
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../angular.min.js"></script>
+	<script type="text/javascript">
+		 var app = angular.module("myApp",[]);
+		 app.controller("myController",function ($scope) {
+		 	 $scope.names = [
+				{name:'alan',age:19},
+				{name:'alan2',age:19},
+				{name:'zhang',age:20}
+			]; 
+		 });
+		 
+	</script>
+</html>

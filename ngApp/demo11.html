@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ng-change</title>
+    </head>
+    <body ng-app="myApp" ng-controller="myCtrol">
+        <input type="text" ng-model="name" ng-change="test()">
+    </body>
+    <script type="text/javascript" src="../angular.min.js"></script>
+    <script type="text/javascript">
+        angular.module("myApp",[]).controller("myCtrol",function ($scope) {
+            $scope.test = function () {
+                 alert($scope.name);
+            };
+
+            $scope.$watch("name",function(){
+                alert("name++");
+            })
+        });
+    </script>
+</html>
