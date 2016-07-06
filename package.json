@@ -1,0 +1,23 @@
+{
+  "name": "angularjs",
+  "version": "1.0.0",
+  "description": "angularjs 学习例子",
+  "main": "angular.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/906536936/angularjs.git"
+  },
+  "keywords": [
+    "angularjs",
+    "学习"
+  ],
+  "author": "张伦",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/906536936/angularjs/issues"
+  },
+  "homepage": "https://github.com/906536936/angularjs#readme"
+}
