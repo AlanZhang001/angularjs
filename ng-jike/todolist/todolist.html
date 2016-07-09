@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+    <head>
+        <meta charset="UTF-8">
+        <title>angularjs-todolist</title>
+        <link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <style>
+            body{
+                width: 300px;
+                padding: 10px;
+            }
+            .form-controller{
+                padding:5px;
+            }
+            .list-group a{
+                cursor:pointer;
+            }
+        </style>
+    </head>
+    <body ng-controller="myCtrl">
+        <div class="input-group">
+            <input ng-model="task" class="form-controller" type="text" />
+            <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="addTask()">提交</button>
+            </span>
+        </div>
+        <h4 ng-if="taskList.length>0">任务列表</h4>
+        <ul class="list-group">
+            <li ng-repeat="item in taskList  track by $index" class="list-group-item">{{item}}
+                <a ng-click="deleteTask($index)">删除</a>
+            </li>
+
+        </ul>
+    </body>
+    <script type="text/javascript" src="../../angular.min.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("myApp",[]);
+        app.controller("myCtrl",function($scope){
+            $scope.taskList = [];
+
+            $scope.addTask = function(){
+                $scope.taskList.push($scope.task);
+            };
+
+            $scope.deleteTask = function(index){
+                $scope.taskList.splice(index,1);
+            };
+        });
+    </script>
+</html>

@@ -1,5 +1,5 @@
 {
-  "name": "angularjs",
+  "name": "angular",
   "version": "1.0.0",
   "description": "angularjs 学习例子",
   "main": "angular.min.js",
@@ -19,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/906536936/angularjs/issues"
   },
-  "homepage": "https://github.com/906536936/angularjs#readme"
+  "homepage": "https://github.com/906536936/angularjs#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.6"
+  }
 }

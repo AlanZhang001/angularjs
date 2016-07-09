@@ -5,7 +5,17 @@
         <title>ng-selection</title>
     </head>
     <body>
-
+        <div ng-app="myApp" ng-controller="myCtrl">
+            <select ng-model="select" ng-options="x for x in names"></select>
+            <select ng-model="select" ng-options="x.age for x in infos"></select>
+        </div>
     </body>
     <script type="text/javascript" src="../angular.min.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("myApp",[]);
+        app.controller("myCtrl",function($scope){
+            $scope.names = ["aa","bb","cc"];
+            $scope.infos = [{age:16},{age:15}];
+        });
+    </script>
 </html>

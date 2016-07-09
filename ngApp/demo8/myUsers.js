@@ -1,17 +1,19 @@
 angular.module('myApp', []).controller('userCtrl', function($scope) {
-    $scope.fName = '';
-    $scope.lName = '';
+    $scope.fName  = '';
+    $scope.lName  = '';
     $scope.passw1 = '';
     $scope.passw2 = '';
-    $scope.users = [{
-        id: 1, fName: 'Hege', lName: "Pege"}, {
-        id: 2, fName: 'Kim', lName: "Pim"}, {
-        id: 3, fName: 'Sal', lName: "Smith"}, {
-        id: 4, fName: 'Jack', lName: "Jones"}, {
-        id: 5, fName: 'John', lName: "Doe"}, {
-        id: 6, fName: 'Peter', lName: "Pan"}];
-    $scope.edit = true;
-    $scope.error = false;
+
+    $scope.users = [
+        { id: 1, fName: 'Hege', lName: "Pege"},
+        { id: 2, fName: 'Kim', lName: "Pim"},
+        { id: 3, fName: 'Sal', lName: "Smith"},
+        { id: 4, fName: 'Jack', lName: "Jones"},
+        { id: 5, fName: 'John', lName: "Doe"},
+        { id: 6, fName: 'Peter', lName: "Pan"}
+    ];
+    $scope.edit       = true;
+    $scope.error      = false;
     $scope.incomplete = false
 
     $scope.editUser = function(id) {
@@ -47,11 +49,16 @@ angular.module('myApp', []).controller('userCtrl', function($scope) {
         } else {
             $scope.error = false;
         }
+
         $scope.incomplete = false;
+
         if ($scope.edit && (!$scope.fName.length ||
-                !$scope.lName.length ||
-                !$scope.passw1.length || !$scope.passw2.length)) {
+                            !$scope.lName.length ||
+                            !$scope.passw1.length ||
+                            !$scope.passw2.length)) {
+
             $scope.incomplete = true;
+
         }
     };
 
@@ -63,6 +70,9 @@ angular.module('myApp', []).controller('userCtrl', function($scope) {
                 fName: $scope.fName,
                 lName: $scope.lName
             });
+            alert("success");
+        }else{
+            alert("update");
         }
     };
 });
