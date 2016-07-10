@@ -16,6 +16,8 @@
                 cursor:pointer;
             }
         </style>
+        <!--angularjs 文件必须放在head中，否则一部分命令会失效-->
+         <script type="text/javascript" src="../../angular.min.js"></script>
     </head>
     <body ng-controller="myCtrl">
         <div class="input-group">
@@ -24,15 +26,14 @@
                 <button class="btn btn-default" ng-click="addTask()">提交</button>
             </span>
         </div>
-        <h4 ng-if="taskList.length>0">任务列表</h4>
-        <ul class="list-group">
-            <li ng-repeat="item in taskList  track by $index" class="list-group-item">{{item}}
+        <h4 ng-if="taskList.length>0" ng-cloak>任务列表</h4>
+        <ul class="list-group" ng-cloak>
+            <li ng-repeat="item in taskList  track by $index" class="list-group-item" >{{item}}
                 <a ng-click="deleteTask($index)">删除</a>
             </li>
-
         </ul>
     </body>
-    <script type="text/javascript" src="../../angular.min.js"></script>
+
     <script type="text/javascript">
         var app = angular.module("myApp",[]);
         app.controller("myCtrl",function($scope){
