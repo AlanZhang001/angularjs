@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/906536936/angularjs.git"
+    "url": "git+https://github.com/AlanZhang001/angularjs.git"
   },
   "keywords": [
     "angularjs",
@@ -17,9 +17,9 @@
   "author": "张伦",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/906536936/angularjs/issues"
+    "url": "https://github.com/AlanZhang001/angularjs/issues"
   },
-  "homepage": "https://github.com/906536936/angularjs#readme",
+  "homepage": "https://github.com/AlanZhang001/angularjs#readme",
   "dependencies": {
     "bootstrap": "^3.3.6"
   },
