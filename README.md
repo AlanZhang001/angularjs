@@ -2,7 +2,7 @@
 
 ##地址　
 ```
-https://github.com/906536936/angularjs.git
+https://github.com/AlanZhang001/angularjs.git
 ```
 
 ## 说明
