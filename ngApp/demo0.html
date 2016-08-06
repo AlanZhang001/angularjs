@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
+    </head>
+    <body ng-controller="ctrl">
+        <p>{{demo.name}}</p>
+    </body>
+    <script type="text/javascript">
+        // 直接写ctrl函数，在1.4版本后已不在支持这种写法
+        function ctrl($scope){
+            $scope.demo = {
+                name:"test"
+            };
+        }
+    </script>
+</html>
