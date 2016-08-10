@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Angularjs 的事件委托</title>
+        <script src="../angular.min.js"></script>
+    </head>
+    <body ng-app="myApp">
+        <p>测试angularjs的事件委托</p>
+        <ul id="warp" ng-controller="myCtrl" ng-click="clickDemo($event)">
+            <li id="1"  index="1">按钮1</li>
+            <li id="2"  index="2">按钮2</li>
+            <li id="3"  index="3">按钮3</li>
+            <li id="4"  index="4">按钮4</li>
+            <li id="5"  index="5">按钮5</li>
+            <li id="6"  index="6">按钮6</li>
+            <li id="7"  index="7">按钮7</li>
+            <li id="8"  index="8">按钮8</li>
+            <li id="9"  index="9">按钮9</li>
+            <li id="10" index="10">按钮10</li>
+            <li id="11" index="11">按钮11</li>
+            <li id="12" index="12">按钮12</li>
+            <li id="13" index="13">按钮13</li>
+            <li id="14" index="14">按钮14</li>
+            <li id="15" index="15">按钮15</li>
+            <li id="16" index="16">按钮16</li>
+            <li id="17" index="17">按钮17</li>
+            <li id="18" index="18">按钮18</li>
+            <li id="19" index="19">按钮19</li>
+            <li id="20" index="20">按钮20</li>
+            <li id="21" index="21">按钮21</li>
+            <li id="22" index="22">按钮22</li>
+            <li id="23" index="23">按钮23</li>
+            <li id="24" index="24">按钮24</li>
+            <li id="25" index="25">按钮25</li>
+            <li id="26" index="26">按钮26</li>
+            <li id="27" index="27">按钮27</li>
+            <li id="28" index="28">按钮28</li>
+            <li id="29" index="29">按钮29</li>
+            <li id="30" index="30">按钮30</li>
+            <li id="31" index="31">按钮31</li>
+            <li id="32" index="32">按钮32</li>
+            <li id="33" index="33">按钮33</li>
+            <li id="34" index="34">按钮34</li>
+            <li id="35" index="35">按钮35</li>
+            <li id="36" index="36">按钮36</li>
+            <li id="37" index="37">按钮37</li>
+            <li id="38" index="38">按钮38</li>
+            <li id="39" index="39">按钮39</li>
+            <li id="40" index="40">按钮40</li>
+            <li id="41" index="41">按钮41</li>
+            <li id="42" index="42">按钮42</li>
+            <li id="43" index="43">按钮43</li>
+            <li id="44" index="44">按钮44</li>
+            <li id="45" index="45">按钮45</li>
+            <li id="46" index="46">按钮46</li>
+            <li id="47" index="47">按钮47</li>
+            <li id="48" index="48">按钮48</li>
+            <li id="49" index="49">按钮49</li>
+            <li id="50" index="50">按钮50</li>
+        </ul>
+    </body>
+    <script>
+        var app = angular.module("myApp",[]);
+        var controller = app.controller("myCtrl",function ($scope) {
+            $scope.clickDemo = function ($event) {
+                console.log($event);
+            };
+        });
+    </script>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Angularis 表单验证</title>
+        <script src="../angular.min.js"></script>
+    </head>
+    <body ng-app="myApp">
+    <!--
+    1.确保form上标签有一个name属性，像下面的例子一样。最好再加一个novalidate=”novalidate”
+    2.form中不能有action属性。提交交由ng-submit处理
+    3.每个input一定要有ng-model，最好有一个name方便引用。然后用require或者ng-minlength之类才起作用
+    4.form中不提供action，而是通过ng-submit的方式进行验证，其参数是boolean，即参数是否合格
+    -->
+        <div ng-controller="myControl" >
+            <form name="form" ng-submit="submit(form.$valid)"  type="post" novalidate>
+                <input type="text" ng-maxlength="20" ng-model="user.name" name="name" placeholder="最大长度20" required/>
+                <input type="submit" value="提交"/>
+            </form>
+            <p>{{formValid.isvalid}}</p>
+            <p>参数{{user}}</p>
+        </div>
+    </body>
+    <script type="text/javascript">
+        var app = angular.module("myApp",[]);
+        var controller = app.controller("myControl",function ($scope) {
+            $scope.submit = function (isValid) {
+                $scope.formValid = {
+                    isvalid:"当前表单"+(isValid ? "" : "不")+"合格"
+                };
+                console.log(isValid);
+            };
+        });
+    </script>
+</html>
