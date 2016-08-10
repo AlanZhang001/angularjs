@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>控制器的嵌套</title>
+        <script src="../angular.min.js"></script>
+    </head>
+    <body ng-app="app">
+        <div ng-controller="parent">
+            <div ng-controller="child">
+                <button ng-click="sayHello()">click hello</button>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        var app = angular.module("app",[]);
+        app.controller("parent",["$scope",function ($scope) {
+            $scope.person = {
+                name:"alanzhang"
+            };
+        }]);
+
+        // 子控制器中的作用域可以访问到父级控制器中的作用域定中的数据
+        app.controller("child",["$scope",function ($scope) {
+            $scope.sayHello = function () {
+                alert($scope.person.name);
+            };
+        }]);
+    </script>
+</html>
