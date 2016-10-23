@@ -6,6 +6,7 @@
 ## 比较好的教程
 - [Angularjs 官方 Api](https://docs.angularjs.org/api/ng)
 - [官方项目](https://github.com/angular/angular-phonecat)
+- [中文网站](http://www.angularjs.cn/T006)
 
 ##  笔记
 1. 变量命名
