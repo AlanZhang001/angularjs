@@ -31,3 +31,6 @@
     }];
 
 ```
+
+3. jQuery
+如果要结合jQuery使用，1.5版本的Angular不支持1.x的jQuery版本；同时jQuery的记载应该在Angular之前。如果存在外部的jQuery，则angular会采用外部的jQ，否则采用内部实现的jQlite。
