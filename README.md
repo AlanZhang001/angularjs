@@ -8,6 +8,7 @@
 - [官方项目](https://docs.angularjs.org/tutorial)
 - [中文网站](http://www.angularjs.cn/T006)
 - Angularjs深度剖析与最佳实践[源码](https://github.com/ng-nice/code-book-forum)
+- 开发指南[中文](http://docs.ngnice.com/guide),[英文](https://docs.angularjs.org/guide)
 
 ##  笔记
 1. 变量命名

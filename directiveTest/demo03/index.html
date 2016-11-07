@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Link的使用</title>
+        <script type="text/javascript" src="../../angular.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+    <body ng-app="myLink">
+        <div ng-controller="linkController">
+            Date format: <input ng-model="format"> <hr/>
+            Current time is: <span my-current-time="format"></span>
+        </div>
+    </body>
+</html>
