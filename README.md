@@ -1,4 +1,4 @@
-# angularjs 学习例子
+# angularjs1.X 学习
 
 ## 说明
 ### 用于学习angularjs，方便在公司和家里进行同步！
@@ -7,6 +7,7 @@
 - [Angularjs 官方 Api](https://docs.angularjs.org/api/ng)
 - [官方项目](https://docs.angularjs.org/tutorial)
 - [中文网站](http://www.angularjs.cn/T006)
+- Angularjs深度剖析与最佳实践[源码](https://github.com/ng-nice/code-book-forum)
 
 ##  笔记
 1. 变量命名
@@ -33,4 +34,16 @@
 ```
 
 3. jQuery
-如果要结合jQuery使用，1.5版本的Angular不支持1.x的jQuery版本；同时jQuery的记载应该在Angular之前。如果存在外部的jQuery，则angular会采用外部的jQ，否则采用内部实现的jQlite。
+如果要结合jQuery使用，1.5版本的Angular不支持1.x的jQuery版本；同时jQuery的加载应该在Angular之前。如果存在外部的jQuery，则angular会采用外部的jQ，否则采用内部实现的jQlite。
+
+4. Angularjs2.X 使用Typescript 和 ES6实现，不支持IE11以下的浏览器
+
+5. 关于自定义directive.
+    - html中使用"aa-bb"的方式，在js中需要使用"aaBb"的方式来指定directive。
+    ```
+    HTML:
+    <div my-info></div>
+    JS:
+    directive("myInfo",function(){});
+    ```
+    - directive前缀不能使用ng，避免与angular内置的directive冲突

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <title>directive 给directive传值</title>
+        <script type="text/javascript" src="../../angular.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+    <body ng-app="demoDirective">
+        <div ng-controller="myController">
+            <div my-info type="alan"></div>
+            <div my-info type="allen"></div>
+        </div>
+        <script type="text/ng-template" id="info-alan.html">
+            'Name: {{info.alan.name}} Age: {{info.alan.age}}'
+        </script>
+        <script type="text/ng-template" id="info-allen.html">
+            'Name2: {{info.allen.name}} Age: {{info.allen.age}}'
+        </script>
+    </body>
+</html>
