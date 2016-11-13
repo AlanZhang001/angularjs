@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ng-module初学者的错误</title>
+    </head>
+    <body>
+        <!-- 如果ng-app有值，则无法自动加载，需要通过js进行加载-->
+        <div ng-app="myApp" ng-controller="myControl" >
+            <input  ng-model="firstName"  type="text" /><br/>
+            <input  ng-model="secondName" type="text" /><br/>
+            name:<p>{{firstName + " " + secondName}}</p>
+        </div>
+    </body>
+    <script type="text/javascript" src="../../angular.min.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("myApp");
+        app.controller('myControl',function ($scope) {
+            $scope.firstName = "alan";
+            $scope.secondName  = "zhang";
+        });
+    </script>
+</html>

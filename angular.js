@@ -3852,6 +3852,7 @@ function annotate(fn, strictDi, name) {
       argDecl,
       last;
 
+
   if (typeof fn === 'function') {
     if (!($inject = fn.$inject)) {
       $inject = [];
@@ -3865,6 +3866,7 @@ function annotate(fn, strictDi, name) {
         }
         argDecl = extractArgs(fn);
         forEach(argDecl[1].split(FN_ARG_SPLIT), function(arg) {
+
           arg.replace(FN_ARG, function(all, underscore, name) {
             $inject.push(name);
           });

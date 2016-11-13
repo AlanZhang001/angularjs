@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ng-repaet错误</title>
+        <style type="text/css">
+            [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body >
+        <!-- 如果ng-app有值，则无法自动加载，需要通过js进行加载-->
+        <div ng-app="myApp" ng-controller="myControl" ng-cloak>
+            <ul>
+                <li ng-repeat='n in [42, 42, 43, 43] track by $index' >item:{{n}}</li>
+            </ul>
+            <ul>
+                <li ng-repeat='n in [42, 42, 43, 43] track by randomNum(n)' >item:{{n}}</li>
+            </ul>
+            <br/>
+            <br/>
+            <ul>
+                <li ng-repeat='info in arr track by randomNum(info)' >
+                    firstName:{{info.firstName}},secondName:{{info.secondName}}
+                </li>
+            </ul>
+        </div>
+    </body>
+    <script type="text/javascript" src="../../angular.min.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("myApp",[]);
+        app.controller('myControl',function ($scope) {
+            var obj ={
+                firstName:"alan",
+                secondName:"zhang"
+            };
+            $scope.arr = [obj,obj];
+
+            $scope.randomNum = function(n){
+                return Math.random();
+            };
+        });
+    </script>
+</html>

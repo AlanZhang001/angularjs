@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Link的使用</title>
+        <script type="text/javascript" src="../../angular.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+    <body ng-app="myApp">
+        <div ng-controller="myController">
+            <my-tabs>
+                <my-pane title="alan"  type="first"> </my-pane>
+                <my-pane title="zhang" type="family"> </my-pane>
+            </my-tabs>
+        </div>
+    </body>
+    <script type="text/ng-template" id="my-tabs.html">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li ng-repeat="pane in panes" ng-class="{active:pane.selected}">
+                  <a href="" ng-click="select(pane)">{{pane.title}}</a>
+                </li>
+            </ul>
+            <div class="tab-content" ng-transclude></div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="my-pane.html">
+        <div class="tab-pane" ng-show="selected">
+          <h4>{{title}}</h4>
+          <div>
+              <p>my {{type}} name is {{title}}</p>
+          </div>
+        </div>
+    </script>
+</html>
