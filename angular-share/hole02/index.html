@@ -6,7 +6,8 @@
     </head>
     <body>
         <!-- 如果ng-app有值，则无法自动加载，需要通过js进行加载-->
-        <div ng-app="myApp" ng-controller="myControl" >
+        <!-- <div ng-app="myApp" ng-controller="myControl" ng-strict-di> -->
+        <div ng-app="myApp" ng-controller="myControl">
             <input  ng-model="firstName"  type="text" /><br/>
             <input  ng-model="secondName" type="text" /><br/>
             name:<p>{{firstName + " " + secondName}}</p>

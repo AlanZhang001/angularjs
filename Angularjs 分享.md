@@ -1,16 +1,43 @@
-## Angularjs 分享
+# Angularjs 分享
 
-### 一、angular的依赖注入原理
-	- http://www.alloyteam.com/2015/09/angularjs-study-of-dependency-injection/
-	- http://www.cnblogs.com/asnowwolf/p/3684700.html
+## 一、angular的依赖注入原理
+### 1. 什么IOC、DI，两者之间的关系是什么？
+- 控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。
+- 依赖注入（Dependency Injection，简称DI）是IOC的一种实现方式。
+
+### 2. Angular的DI？
+
+Angular的依赖注入可分为3种[DEMO](angular-share/IOC/injectDemo.html)：
+
+- 内联数组注入的方式
+```
+myModule.controller('MyCtrl', ['$scope', function($scope, greeter) {
+// doSomething
+});
+```
+- $inject属性注入
+```
+var MyCtrl = function($scope) {
+    // doSomething 
+};
+MyCtrl.$inject = ['$scope'];
+myModule.controller('MyCtrl', MyCtrl);
+```
+- 查询注入
+```
+myModule.controller('MyCtrl', function($scope) {
+  // ...
+});
+```
+
+### 3. 如何自己实现一个DI的模型？
+### 4. 使用DI的好处，以及对于我们编码的启示？
 
 
 ###  二、angularjs的AOP原理
 
-###　三、angularjs最佳实践
+###　三、angularjs的坑
 
-###  四、angularjs的坑
-    
 1. `angular.module("",[])`与`angular.module("")`。见[hole1](angular-share/hole01/index.html)
 
     `angular.module('name', [])`是创建一个新的`module`，`[]`表示它没有依赖任何其他模块，如果已经有了一个同名模块，则会覆盖现有的。
@@ -26,6 +53,12 @@
         var Ctrl =  function($scope, $http) {};
         angular.module("moduleName",[]).controller("ctrlName",Ctrl)
 
+    ```
+
+    Angular还提供提供了`ng-strict-di`标签来检测查找注入的方式，当ng-app所在标签使用了`ng-strict-di`,则会抛出异常。
+
+    ```
+    <div ng-app="myApp" ng-controller="myControl" ng-strict-di>
     ```
 
 3. ng-repeat重复问题，见[hole3](angular-share/hole03/index.html)
@@ -65,12 +98,15 @@
     <ng-include src="./footer.html"></ng-include>
     ```
 
-
 6. 作用域的原型继承问题
 
 7. ngOption 中的 value问题。见[hole7](angular-share/hole07/index.html)
     - ng-options 所在select必须通过ng-model与 某个变量进行绑定，否则无效。
 
-8. 独立作用域问题
+8. 
 
 ### 参考
+
+- https://docs.angularjs.org/guide/di
+- http://www.alloyteam.com/2015/09/angularjs-study-of-dependency-injection/
+- http://www.cnblogs.com/asnowwolf/p/3684700.html

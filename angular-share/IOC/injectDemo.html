@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ng-repaet错误</title>
+        <style type="text/css">
+            [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body >
+        <!-- <div ng-app="myApp" ng-controller="myControl" ng-cloak> -->
+        <div ng-app="myApp" >
+            <div ng-controller="myCtrl1">
+                <ul>
+                    {{type}}
+                </ul>
+            </div>
+
+            <div ng-controller="myCtrl2">
+                <ul>
+                    {{type}}
+                </ul>
+            </div>
+
+            <div ng-controller="myCtrl3">
+                <ul>
+                    {{type}}
+                </ul>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="../../angular.min.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("myApp",[]);
+        app.controller('myCtrl1',["$scope",function ($scope) {
+            $scope.type = "内联数组注入的方式";
+        }]);
+
+        var ctrl = function($scope){
+            $scope.type = "$inject属性注入";
+        };
+
+        ctrl.$inject = ["$scope"];
+        app.controller('myCtrl2',ctrl);
+
+        app.controller('myCtrl3',function ($scope) {
+            $scope.type = "查询注入";
+        });
+    </script>
+</html>

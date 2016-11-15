@@ -3824,66 +3824,110 @@ var $$HashMapProvider = [function() {
  * Implicit module which gets automatically added to each {@link auto.$injector $injector}.
  */
 
-var ARROW_ARG = /^([^\(]+?)=>/;
-var FN_ARGS = /^[^\(]*\(\s*([^\)]*)\)/m;
-var FN_ARG_SPLIT = /,/;
-var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
-var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-var $injectorMinErr = minErr('$injector');
+    // 箭头函数参数列表
+    var ARROW_ARG = /^([^\(]+?)=>/;
 
-function extractArgs(fn) {
-  var fnText = fn.toString().replace(STRIP_COMMENTS, ''),
-      args = fnText.match(ARROW_ARG) || fnText.match(FN_ARGS);
-  return args;
-}
+    // 普通函数参数列表
+    var FN_ARGS = /^[^\(]*\(\s*([^\)]*)\)/m;
 
-function anonFn(fn) {
-  // For anonymous functions, showing at the very least the function signature can help in
-  // debugging.
-  var args = extractArgs(fn);
-  if (args) {
-    return 'function(' + (args[1] || '').replace(/[\s\r\n]+/, ' ') + ')';
-  }
-  return 'fn';
-}
+    // 参数列表的分隔符
+    var FN_ARG_SPLIT = /,/;
 
-function annotate(fn, strictDi, name) {
-  var $inject,
-      argDecl,
-      last;
+    var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
 
+    // 匹配函数注释
+    var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 
-  if (typeof fn === 'function') {
-    if (!($inject = fn.$inject)) {
-      $inject = [];
-      if (fn.length) {
-        if (strictDi) {
-          if (!isString(name) || !name) {
-            name = fn.name || anonFn(fn);
-          }
-          throw $injectorMinErr('strictdi',
-            '{0} is not using explicit annotation and cannot be invoked in strict mode', name);
-        }
-        argDecl = extractArgs(fn);
-        forEach(argDecl[1].split(FN_ARG_SPLIT), function(arg) {
+    // 再次封装的Error的构造函数，由于标志不同的模块，活在Error的message信息中加入模块名称，
+    var $injectorMinErr = minErr('$injector');
 
-          arg.replace(FN_ARG, function(all, underscore, name) {
-            $inject.push(name);
-          });
-        });
-      }
-      fn.$inject = $inject;
+    /**
+     * [extractArgs 正则匹配出函数的参数]
+     * @param  {Function} fn [构造函数，一般是注册ctrl，service的构造函数]
+     * @return {[type]}      [参数列表]
+     */
+    function extractArgs(fn) {
+                     // 获取函数内容
+        var fnText = fn.toString()
+                     // 去除注释
+                     .replace(STRIP_COMMENTS, ''),
+
+            // 正则匹配出参数列表
+            args = fnText.match(ARROW_ARG) || fnText.match(FN_ARGS);
+        return args;
     }
-  } else if (isArray(fn)) {
-    last = fn.length - 1;
-    assertArgFn(fn[last], 'fn');
-    $inject = fn.slice(0, last);
-  } else {
-    assertArgFn(fn, 'fn', true);
-  }
-  return $inject;
-}
 
+    function anonFn(fn) {
+        // For anonymous functions, showing at the very least the function signature can help in
+        // debugging.
+        var args = extractArgs(fn);
+        if (args) {
+            return 'function(' + (args[1] || '').replace(/[\s\r\n]+/, ' ') + ')';
+        }
+        return 'fn';
+    }
+
+    /**
+     * [annotate 根据函数匹配出他的依赖列表]
+     * @param  {Function} fn       [注册的服务的构造函数]
+     * @param  {[Boolean]} strictDi [是否为严格注入方式，即不允许通过函数参数的方式注入依赖]
+     * @param  {String}  name      [实例化的服务名称]
+     * @return {[type]}            [description]
+     */
+    function annotate(fn, strictDi, name) {
+        var $inject,
+            argDecl,
+            last;
+
+        // 通过$inject属性注入依赖 或者 查找注入依赖
+        if (typeof fn === 'function') {
+
+            // 通过查找注入依赖
+            if (!($inject = fn.$inject)) {
+                $inject = [];
+
+                // 函数存在参数
+                if (fn.length) {
+
+                    // 严格的依赖注入方式，则报错
+                    if (strictDi) {
+                        if (!isString(name) || !name) {
+                            name = fn.name || anonFn(fn);
+                        }
+                        throw $injectorMinErr('strictdi',
+                            '{0} is not using explicit annotation and cannot be invoked in strict mode', name);
+                    }
+
+                    // 获取函数参数列表
+                    argDecl = extractArgs(fn);
+                    forEach(argDecl[1].split(FN_ARG_SPLIT), function(arg) {
+
+                        // 保存依赖的名称
+                        // ？：这里再次进行了replace不太懂
+                        arg.replace(FN_ARG, function(all, underscore, name) {
+                            $inject.push(name);
+                        });
+                    });
+                }
+
+                // 设置函数的$inject属性，通过参数传依赖的方式最终还是通过函数属性的方式保存
+                fn.$inject = $inject;
+            }
+
+        // 内联数组注入的方式注入依赖
+        } else if (isArray(fn)) {
+            last = fn.length - 1;
+            assertArgFn(fn[last], 'fn');
+
+            // 前n-1个参数为依赖的名称
+            $inject = fn.slice(0, last);
+        } else {
+            assertArgFn(fn, 'fn', true);
+        }
+
+        // 返回了依赖列表
+        return $inject;
+    }
 ///////////////////////////////////////
 
 /**
