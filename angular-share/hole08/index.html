@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ng-options</title>
+        <style type="text/css">
+            [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body >
+        <div ng-app="myApp" ng-controller="myControl" ng-cloak>
+            现在时间是：{{ time.now | date:'yyyy-MM-dd HH:mm:ss Z'}}
+
+        </div>
+        <script type="text/javascript" src="../../angular.min.js"></script>
+        <script type="text/javascript">
+            var app = angular.module("myApp",[]);
+
+            // 不生效的代码
+            /*app.controller('myControl',["$scope",function ($scope) {
+                window.setInterval(function(){
+                    $scope.time = {
+                        now:new Date()
+                    };
+                },800);
+            }]);*/
+
+            // 解决办法
+            /* app.controller('myControl',["$scope",function ($scope) {
+                window.setInterval(function(){
+                    $scope.$apply(function(){
+                        $scope.time = {
+                            now:new Date()
+                        };
+                    });
+                },800);
+            }]);*/
+
+            // 推荐的做法，尽量使用Angular内部提供的服务
+            app.controller('myControl',["$scope","$interval",function ($scope,$interval) {
+                $interval(function(){
+                    $scope.time = {
+                        now:new Date()
+                    };
+                },800);
+
+            }]);
+
+        </script>
+</html>

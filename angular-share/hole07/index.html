@@ -13,8 +13,13 @@
 
         <div ng-app="myApp" ng-controller="myControl" ng-cloak>
 
+            <!--未绑定一个model，option不生效-->
             <select ng-options="item.name for item in arr"></select>
             <select ng-model="myName" ng-options="item.value as item.name for item in arr track by item.value"></select>
+            <br/>
+            <br/>
+
+
 
         </div>
         <script type="text/javascript" src="../../angular.min.js"></script>

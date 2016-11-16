@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>ng-scope</title>
+        <style type="text/css">
+            [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body ng-app="myApp">
+        <p>输入你名称，下面的名称会实时改变吗</p>
+        <div ng-controller="TestCtrl">
+            <div ng-if="show">
+                <input type="text" ng-model="name">
+                <!-- <input type="text" ng-model="$parent.name"> -->
+            </div>
+            <p>your name is {{name}}</p>
+
+            <div ng-if="show">
+                <input type="text" ng-model="data.name">
+            </div>
+            <p>your name is {{data.name}}</p>
+        </div>
+        <script type="text/javascript" src="../../angular.min.js"></script>
+        <script type="text/javascript">
+            var app = angular.module("myApp",[]);
+            app.controller('TestCtrl',["$scope",function ($scope) {
+                $scope.show = true;
+                $scope.name = 'alanzhang';
+
+                $scope.data = {
+                    name: "zhanglun"
+                };
+            }]);
+        </script>
+</html>
