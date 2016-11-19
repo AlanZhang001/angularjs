@@ -1,21 +1,110 @@
 # Angularjs 分享
 
 ## 一、angular的依赖注入原理
+
+### 常见对象之间依赖的方式
+
+如果一个function或者object需要一个对象实例，无非是下面三种方式：
+
+1.在函数（构造函数）中通过new关键字实例化依赖对象，并与某个属性绑定。
+
+```
+function A(){
+  console.log("this is A")；
+};
+
+function B(){
+  this.a = new A();
+}
+```
+
+2.显式查找外部环境中的依赖实例并应用
+
+```
+function A(){
+  console.log("this is A")；
+};
+
+var services= {
+  a: new A(),
+  get: function(name){
+    return this[name.toLocaleLowerCase()];
+  }
+}
+
+function B(){
+   this.a = services.get("A");
+}
+```
+
+3.在外部创建依赖实例，然后注入至对象中。
+```
+function A(){
+  console.log("this is A")；
+};
+
+var a = new A();
+
+// 通过构造函数注入
+function B(instance){
+   this.a = instance;
+
+   this.setter = function(value){
+      this.a = value;
+   }
+}
+new B(a);
+
+// 通过Setter方式注入
+var b = new B();
+b.setter(a);
+
+// 直接通过属性注入
+var b = new B();
+b.a = a;
+
+```
+ 
+  + 对于第一种方式，在对象B中进行硬编码，这就使得当依赖变得不可用时,要修改依赖相关的代码变得非常困难和繁琐，一旦A进行替换，则B也必须记性修改。
+  + 对于第二种方式，较第一种方式有改进，但是当B的依赖改变时，仍需修改B的代码。
+  + 第三种方式，获取依赖的方式对B完全透明，完全由第三方注入，在更换依赖时，B无需做其他更改。第三种方式就常数的依赖注入。
+
+下面会进行更加细致的说明。
+
 ### 1. 什么IOC、DI，两者之间的关系是什么？
-- 控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。
-- 依赖注入（Dependency Injection，简称DI）是IOC的一种实现方式。
+
+**控制反转**（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低代码之间的耦合度。通俗的将，控制反转就是将创建依赖的对象的实例的权限交给第三方，而当前对象不关心创建的过程及逻辑，只需指定我们需要的依赖即可。
+
+**依赖注入**（Dependency Injection，简称DI）是IOC的一种实现方式，对象在指定了依赖之后，根据指定的依赖标志获取具体的依赖实例，注入到对象中即可，以此来达到控制范围的目的。
 
 ### 2. Angular的DI？
 
+#### 2.1 Bootstrap启动
+为了更清楚的了解依赖注入的过程，我们先简单的分析下整个`angular`的启动过程，尽可能将关注点放在依赖注入身上，因此会忽略其细节。`angular` 在创建`controller`、`service`等时并未直接注入依赖，而是先将需要注入依赖的`function`保存只列表中，最后在`domready`时逐一注入依赖,如图：
+
+<img src="asserts/bootstrap.png" style="margin: 0 auto; display: block;" />
+ 
+#### 2.2 angular的3种注入依赖的方式
+
+在angular内部，DI随处可见，如`filter`、`directive`、`controller`等的创建过程。而angular也提供了多种依赖注入的方式，下面以cotroller的创建举例说明。
+
 Angular的依赖注入可分为3种[DEMO](angular-share/IOC/injectDemo.html)：
 
-- 内联数组注入的方式
+- 查询推断注入：通过函数签名中的参数列表注入依赖
+```
+myModule.controller('MyCtrl', function($scope) {
+  // ...
+});
+```
+
+- 内联数组注入的方式： 通过数组指定依赖
 ```
 myModule.controller('MyCtrl', ['$scope', function($scope, greeter) {
 // doSomething
 });
 ```
-- $inject属性注入
+
+- $inject属性注入： 通过指定函数的$inject来指定依赖
 ```
 var MyCtrl = function($scope) {
     // doSomething 
@@ -23,14 +112,383 @@ var MyCtrl = function($scope) {
 MyCtrl.$inject = ['$scope'];
 myModule.controller('MyCtrl', MyCtrl);
 ```
-- 查询注入
+
+三种依赖注入的方式比较：
+
+  -  第一种方式，代码更加简洁，但是在线上环境压缩代码之后，形参会被替换为angular不可识别的变量，导致代码错误。
+  -  第二种方式最为常用，controller第二参数中，前n-1的依赖顺序，需要与function中参数列表保持一致。
+  -  第三种方式，需要额外通过参数指定具体的依赖列表。
+
+目前第二种方式最为常见，既避免压缩导致的错误，用于也无需刻意指定$inject属性，因此依赖过程更为透明。
+
+#### 2.3 实现过程
+
+依赖注入作为一种软件设计模式，很多编程语言中进行实现，如JAVA的`Spring`框架，PHP的`Laravel`框架，.NET的`Autofac`，再配合面向对象的接口编程和多态特性，让依赖更加容易管理。
+
+#### 2.3.1 java等语言中如何实现的IOC
+
+以java的`Spring`为例简要说明其实现原理。
+
+1.`Spring`通过配置文件，来管理对象之间的依赖，使依赖的管理更为方便，下面是`Spring`的一个配置文件demo：
 ```
-myModule.controller('MyCtrl', function($scope) {
-  // ...
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="sampleService" name="sampleService" class="cn.test.springDemo.SampleServiceImpl" />
+
+    <bean name="sampleAction" class="cn.test.springDemo.SampleAction" scope="prototype" >
+        <property name="service" ref="sampleService"/>
+    </bean> // ref即为当前对象的依赖，会通过ref找到id为sampleService的实例并注入，通过service变量进行接收。
+</beans>
+```
+2.在`Spring`容器启动时，读取配置，通过bean标签中的`class`属性找到该类的路径，由于java的反射特性，可通过`class`路径加载对应的`class`文件，并获取到其构造函数、普通方法。`spring`容器实例化依赖对象，通过`setter`方法注入到目标对象中即可。
+
+容器读取`sampleAction`时，`property`意味着`sampleAction`存在一个`setService`的`set`方法，其依赖为`ref`字段即`sampleService`，会通过ref找到id为`sampleService`的实例，然后通过`set`方法注入`sampleAction`中。
+
+#### 2.3.2 angular依赖注入实现的方式
+
+下面以创建一个`controller`为例说明其过程。
+
+angular内容通过`invoke`方法为为`controller`注入依赖。
+
+```
+app.controller('myControl',function myControl($scope) {
+    $scope.firstName = "alan";
+    $scope.secondName  = "zhang";
 });
 ```
 
+注入过程（为说明该过程，代码了简化）：
+第一步，拿到controller构造函数，通过其`toString()`获取到函数源码
+
+```
+var fnStr = myControl.toString()
+```
+
+第二步，通过正则表示获取其参数列表
+
+```
+var FN_ARGS = /^[^\(]*\(\s*([^\)]*)\)/m;
+
+// 获取参数列表
+var argDecl = fnStr.match(FN_ARGS);
+
+// 保存依赖数组
+var $inject = [];
+
+// 通过参数获取依赖名称
+forEach(argDecl[1].split(FN_ARG_SPLIT), function(arg) {
+    // 保存依赖的名称
+    arg.replace(FN_ARG, function(all, underscore, name) {
+        $inject.push(name);
+    });
+});
+```
+
+第三步，通过根据参数名，获取具体的依赖实例
+```
+var args = [],
+
+// 根据依赖名称获取具体的依赖实例
+for (var i = 0, length = $inject.length; i < length; i++) {
+    var key = $inject[i];
+    args.push( getService(key, serviceName));
+}
+return args;
+```
+
+第四步，通过apply的方式注入依赖
+
+```
+myControl.apply(self, args)
+```
+
+通过上面简易的四部，`angular`即完成了注入依赖。
+
+对于数组方式的输入依赖，通过去数组中的n-1个元素，即可得到其依赖列表，对于`$inject`方式的依赖，直接获取其`$inject`属性即为依赖。其余步骤通上面的三、四步。
+由于压缩会导致形式参数名称改变，因此上面的例子在代码压缩之后，获取的依赖列表将无法正确的获取到依赖实例，因此，建议通过数组的方式或者$inject的方式注入依赖。
+
+为了应对这种情况，angular提供了 `ng-strict-di`标签来检测查找注入的方式，当ng-app所在标签使用了`ng-strict-di`,则会抛出异常。
+
+下面是关键代码及注释：
+
+**获取参数列表代码，主要方法为annotate：**
+```
+/**
+ * @ngdoc module
+ * @name auto
+ * @description
+ *
+ * Implicit module which gets automatically added to each {@link auto.$injector $injector}.
+ */
+
+// 正则：获取箭头函数参数列表
+var ARROW_ARG = /^([^\(]+?)=>/;
+
+// 正则：获取普通函数参数列表
+var FN_ARGS = /^[^\(]*\(\s*([^\)]*)\)/m;
+
+// 正则：获取参数列表的分隔符
+var FN_ARG_SPLIT = /,/;
+
+var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
+
+// 正则：匹配函数注释
+var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+
+// 再次封装的Error的构造函数，由于标志不同的模块，活在Error的message信息中加入模块名称，
+var $injectorMinErr = minErr('$injector');
+
+/**
+ * [extractArgs 正则匹配出函数的参数]
+ * @param  {Function} fn [构造函数，一般是注册ctrl，service的构造函数]
+ * @return {[type]}      [参数列表]
+ */
+function extractArgs(fn) {
+        // 获取函数内容
+    var fnText = fn.toString()
+                 // 去除注释
+                 .replace(STRIP_COMMENTS, ''),
+
+        // 正则匹配出参数列表
+        args = fnText.match(ARROW_ARG) || fnText.match(FN_ARGS);
+    return args;
+}
+
+/**
+ * [anonFn 处理匿名函数，有参数的函数返回‘function(参数)’ 没有参数的函数，返回‘fn’]
+ * @param  {Function} fn [description]
+ * @return {[type]}      [description]
+ */
+function anonFn(fn) {
+    // For anonymous functions, showing at the very least the function signature can help in
+    // debugging.
+    var args = extractArgs(fn);
+    if (args) {
+        return 'function(' + (args[1] || '').replace(/[\s\r\n]+/, ' ') + ')';
+    }
+    return 'fn';
+}
+
+/**
+ * [annotate 根据函数匹配出他的依赖列表]
+ * @param  {Function} fn       [注册的服务的构造函数]
+ * @param  {[Boolean]} strictDi [是否为严格注入方式，即不允许通过函数参数的方式注入依赖]
+ * @param  {String}  name      [实例化的服务名称]
+ * @return {[type]}            [description]
+ */
+function annotate(fn, strictDi, name) {
+    var $inject,
+        argDecl,
+        last;
+
+    // 通过$inject属性注入依赖 或者 查找注入依赖
+    if (typeof fn === 'function') {
+
+        // 先保存 $inject属性
+        // 如果fn.$inject为空或者长度为0，则进入if，通过参数列表获取依赖列表
+        if (!($inject = fn.$inject)) {
+            $inject = [];
+
+            // 函数存在参数
+            if (fn.length) {
+
+                // 严格的依赖注入方式，则报错
+                if (strictDi) {
+                    if (!isString(name) || !name) {
+                        name = fn.name || anonFn(fn);
+                    }
+                    throw $injectorMinErr('strictdi',
+                        '{0} is not using explicit annotation and cannot be invoked in strict mode', name);
+                }
+
+                // 获取函数参数列表
+                argDecl = extractArgs(fn);
+                forEach(argDecl[1].split(FN_ARG_SPLIT), function(arg) {
+
+                    // 保存依赖的名称
+                    // ？：这里再次进行了replace不太懂
+                    arg.replace(FN_ARG, function(all, underscore, name) {
+                        $inject.push(name);
+                    });
+                });
+            }
+
+            // 设置函数的$inject属性，通过参数传依赖的方式最终还是通过函数属性的方式保存
+            fn.$inject = $inject;
+        }
+
+    // 内联数组注入的方式注入依赖
+    } else if (isArray(fn)) {
+        last = fn.length - 1;
+        assertArgFn(fn[last], 'fn');
+
+        // 前n-1个参数为依赖的名称
+        $inject = fn.slice(0, last);
+    } else {
+        assertArgFn(fn, 'fn', true);
+    }
+
+    // 返回了依赖列表
+    return $inject;
+}
+
+```
+
+**获取依赖实例数组**：
+```
+/**
+ * [injectionArgs 根据函数签名获取函数的依赖名称，根据依赖名称获取依赖实例]
+ * @param  {Function} fn          [构造方法]
+ * @param  {OBJECT}   locals      [已存在的依赖实例map]
+ * @param  {[type]}   serviceName [在获取不到依赖时，根据该名称来创建实例]
+ * @return {[type]}               [description]
+ */
+function injectionArgs(fn, locals, serviceName) {
+    var args = [],
+
+        // 获取函数依赖的名称数组
+        $inject = createInjector.$$annotate(fn, strictDi, serviceName);
+
+    // 根据依赖名称获取具体的依赖实例
+    for (var i = 0, length = $inject.length; i < length; i++) {
+        var key = $inject[i];
+        if (typeof key !== 'string') {
+            throw $injectorMinErr('itkn',
+                'Incorrect injection token! Expected service name as string, got {0}', key);
+        }
+        args.push(locals && locals.hasOwnProperty(key) ? locals[key] :
+
+            // 根据名字获取服务，如果服务不存在，尝试使用factory(key, serviceName)创建服务
+            getService(key, serviceName));
+    }
+    return args;
+}
+```
+
+**为函数注入依赖:**
+```
+/**
+ * [invoke 为函数注入依赖]
+ * @param  {Function} fn          [构造函数]
+ * @param  {[type]}   self        [函数运行环境]
+ * @param  {[type]}   locals      [本地已存在的依赖map]
+ * @param  {[type]}   serviceName [description]
+ * @return {[type]}               [description]
+ */
+function invoke(fn, self, locals, serviceName) {
+
+    if (typeof locals === 'string') {
+        serviceName = locals;
+        locals = null;
+    }
+
+    // 获取依赖的实例
+    var args = injectionArgs(fn, locals, serviceName);
+
+    // 如果是数组，则最后一个元素为
+    if (isArray(fn)) {
+        fn = fn[fn.length - 1];
+    }
+
+    // 不是Class，而是普通函数
+    if (!isClass(fn)) {
+        // http://jsperf.com/angularjs-invoke-apply-vs-switch
+        // #5388
+        // 在fn中注入依赖
+        return fn.apply(self, args);
+
+    // fn为class时按照Function实例来进行注入
+    } else {
+        args.unshift(null);
+        return new(Function.prototype.bind.apply(fn, args))();
+    }
+}
+
+```
+
 ### 3. 如何自己实现一个DI的模型？
+
+通过对angular依赖注入的说明，我们可实现一个简易版的DI模型。代码见[DI](angualr-share/IOC/DiModel.js)
+
+```
+var DI = {
+    // 保存依赖
+    dependencies: {
+        $http: {
+            post: (data) => {
+                console.info("post...",JSON.stringify(data));
+            },
+            get: (data) => {
+                console.info("get",JSON.stringify(data));
+            }
+        }
+    },
+    // 注册依赖
+    register: function (key, value) {
+        this.dependencies[key] = vlaue;
+    },
+    // 获取服务
+    getService: function(key) {
+        return this.dependencies[key];
+    },
+    // 获取参数列表
+    annotate: function(fn) {
+        let FN_ARGS = /^[^\(]*\(\s*([^\)]*)\)/m;
+        let FN_ARG_SPLIT = /,/;
+        let $inject = [];
+        let argDecl = Function.prototype.toString.call(fn).match(FN_ARGS);
+
+        argDecl[1].split(FN_ARG_SPLIT).forEach((name) => {
+            $inject.push(name);
+        });
+        return $inject;
+    },
+    // 获取依赖列表
+    injectionArgs: function(fn) {
+        let $inject = this.annotate(fn);
+        let args = [];
+
+        $inject.forEach((item) => {
+            args.push(this.getService(item));
+        });
+
+        return args;
+    },
+    // 注入依赖
+    invoke: function(fn, context) {
+        var args = this.injectionArgs(fn);
+        fn.apply(context, args)
+    }
+
+};
+
+// demo：
+class MyModule{
+
+    constructor(name){
+        this.moduleName = name;
+    }
+    controller(ctrl,fn){
+        DI.invoke(fn);
+    }
+}
+
+var mod = new MyModule("myApp");
+
+mod.controller("myCtrl",function($http){
+    $http.post({
+        url:"/",
+        data:{
+            age:18
+        }
+    });
+});
+```
+
 ### 4. 使用DI的好处，以及对于我们编码的启示？
 
 
@@ -204,7 +662,7 @@ angular内置了jqlite（简易版的jquery，见[API](https://docs.angularjs.or
 
 
 ### 总结
-你觉得坑多，主要还是文案看的少。
+你觉得坑多，主要还是文档看的少。
 
 ### 参考
 

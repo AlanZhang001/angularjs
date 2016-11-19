@@ -12,9 +12,9 @@
             name:<p>{{firstName + " " + secondName}}</p>
         </div>
     </body>
-    <script type="text/javascript" src="../../angular.min.js"></script>
+    <script type="text/javascript" src="../../angular.js"></script>
     <script type="text/javascript">
-        var app = angular.module("myApp");
+        var app = angular.module("myApp",[]);
         app.controller('myControl',function ($scope) {
             $scope.firstName = "alan";
             $scope.secondName  = "zhang";
