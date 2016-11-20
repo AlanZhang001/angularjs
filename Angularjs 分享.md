@@ -506,7 +506,7 @@ DI的核心就是将依赖对象的创建交给第三方，据我理解，这种
 
 ###  二、angularjs的AOP原理
 
-
+TODO
 
 ###　三、angularjs的坑
 

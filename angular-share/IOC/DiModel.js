@@ -12,10 +12,12 @@ var DI = {
     },
     // 注册依赖
     register: function (key, value) {
+
         this.dependencies[key] = vlaue;
     },
     // 获取服务
     getService: function(key) {
+
         return this.dependencies[key];
     },
     // 获取参数列表
