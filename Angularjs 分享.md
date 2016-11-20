@@ -1,5 +1,8 @@
 # Angularjs 分享
 
+## 背景
+最近要做一次小组分享，之前拟定的题目是MVVM的一些内容，主要还是围绕Angularjs, 尽管angular已经火了好几年，但是说来惭愧，我在实际项目中使用的经验还是比较少，更多的时候是去查看api，纠结很久要分享的内容，最后定位ioc和aop的一些内容，这2部分的内容在java中也必不可少，所以学习了一段时间，做了些整理记录一下。
+
 ## 一、angular的依赖注入原理
 
 ### 常见对象之间依赖的方式
@@ -503,6 +506,8 @@ DI的核心就是将依赖对象的创建交给第三方，据我理解，这种
 
 ###  二、angularjs的AOP原理
 
+
+
 ###　三、angularjs的坑
 
 #### 1. `angular.module("",[])`与`angular.module("")`。见[hole1](angular-share/hole01/index.html)
@@ -668,10 +673,9 @@ angular内置了jqlite（简易版的jquery，见[API](https://docs.angularjs.or
 
 >Angular 1.3+ technically requires at least jQuery 2.1+ but it may work with older versions. It will not work for sure with jQuery <1.7, though.
 
-
-
 ### 总结
 你觉得坑多，主要还是文档看的少。
+
 
 ### 参考
 
@@ -681,3 +685,7 @@ angular内置了jqlite（简易版的jquery，见[API](https://docs.angularjs.or
 - <http://www.alloyteam.com/2015/09/angularjs-study-of-dependency-injection/>
 - <http://www.cnblogs.com/asnowwolf/p/3684700.html>
 - <https://docs.angularjs.org/tutorial/step_14>
+- <http://www.cnblogs.com/whitewolf/archive/2012/09/11/2680659.html>
+- <https://www.zhihu.com/question/28097646>
+- <http://www.morphzhou.cn/?p=403>
+- <http://www.cnblogs.com/ningvsban/p/3757890.html>
