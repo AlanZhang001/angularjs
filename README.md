@@ -10,6 +10,13 @@
 - Angularjs深度剖析与最佳实践[源码](https://github.com/ng-nice/code-book-forum)
 - 开发指南[中文](http://docs.ngnice.com/guide),[英文](https://docs.angularjs.org/guide)
 
+
+## 相关文章
+
+- [angular 依赖注入原理](https://github.com/AlanZhang001/angularjs/blob/master/Angularjs%20%E5%88%86%E4%BA%AB.md#一angular的依赖注入原理)
+- [angular 遇到的坑](https://github.com/AlanZhang001/angularjs/blob/master/Angularjs%20%E5%88%86%E4%BA%AB.md#三angularjs的坑)
+
+
 ##  笔记
 1. 变量命名
 以`$`变开头的变量是angular提供的服务，用户在命名变量时以你避免以此字符开头。注入某个作用域的变量，以`$$` 开头的变量一般认为是私有变量并且不应该被改变。
