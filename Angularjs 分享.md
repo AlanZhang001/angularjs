@@ -98,13 +98,13 @@ Angular的依赖注入可分为3种[DEMO](angular-share/IOC/injectDemo.html)：
 - 查询推断注入：通过函数签名中的参数列表注入依赖
 ```
 myModule.controller('MyCtrl', function($scope) {
-  // ...
+  // doSomething
 });
 ```
 
 - 内联数组注入的方式： 通过数组指定依赖
 ```
-myModule.controller('MyCtrl', ['$scope', function($scope, greeter) {
+myModule.controller('MyCtrl', ['$scope', function($scope) {
 // doSomething
 });
 ```
