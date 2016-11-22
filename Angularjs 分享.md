@@ -167,6 +167,7 @@ app.controller('myControl',function myControl($scope) {
 ```
 
 注入过程（为说明该过程，代码了简化）：
+
 第一步，拿到controller构造函数，通过其`toString()`获取到函数源码
 
 ```

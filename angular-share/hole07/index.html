@@ -13,35 +13,52 @@
 
         <div ng-app="myApp" ng-controller="myControl" ng-cloak>
 
-            <!--未绑定一个model，option不生效-->
-            <select ng-options="item.name for item in arr"></select>
-            <select ng-model="myName" ng-options="item.value as item.name for item in arr track by item.value"></select>
+            <select ng-options="item.name for item in arr"></select><br/>
+            <select ng-model="myName" id="demo2" ng-options="item.value as item.name for item in arr track by item.value"></select><br/>
             <br/>
             <br/>
-
 
 
         </div>
+        <script type="text/javascript" src="../../jquery-1.12.4.js"></script>
         <script type="text/javascript" src="../../angular.min.js"></script>
         <script type="text/javascript">
             var app = angular.module("myApp",[]);
             app.controller('myControl',["$scope",function ($scope) {
                 $scope.arr = [
                     {
-                        value:"1",
+                        value:"a1",
                         name:"alanzhang"
                     },
                     {
-                        value:"2",
+                        value:"b2",
                         name:"cynthia"
                     },
                     {
-                        value:"3",
+                        value:"c3",
                         name:"jin"
                     }
                 ];
 
+                $scope.arrNum = [
+                    {
+                        value:1,
+                        name:"alanzhang"
+                    },
+                    {
+                        value:2,
+                        name:"cynthia"
+                    },
+                    {
+                        value:3,
+                        name:"jin"
+                    }
+                ];
+
+
                 $scope.myName = $scope.arr[0];
+                $scope.myNameNum = $scope.arrNum[0];
             }]);
+
         </script>
 </html>

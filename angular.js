@@ -1818,10 +1818,6 @@
                 injector: JQLitePrototype.injector,
                 inheritedData: JQLitePrototype.inheritedData
             });
-
-            // All nodes removed from the DOM via various jQuery APIs like .remove()
-            // are passed through jQuery.cleanData. Monkey-patch this method to fire
-            // the $destroy event on all removed nodes.
             originalCleanData = jQuery.cleanData;
             jQuery.cleanData = function(elems) {
                 var events;
@@ -1837,7 +1833,6 @@
         } else {
             jqLite = JQLite;
         }
-
         angular.element = jqLite;
 
         // Prevent double-proxying.
