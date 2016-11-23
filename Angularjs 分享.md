@@ -609,6 +609,20 @@ $scope.footer = "footer.html";
 #### 7.ngOption 中的 value问题。见[hole7](angular-share/hole07/index.html)
 
 - ng-options 所在select必须通过ng-model与 某个变量进行绑定，否则无效。
+```
+无效
+<select ng-options="item.name for item in arr">
+$scope.arr = [
+    {
+        value:"a1",
+        name:"alanzhang"
+    },
+    {
+        value:"b2",
+        name:"cynthia"
+    }
+];
+```
 
 
 #### 8. 并不是所有的$scope属性的改变都能直接触发渲染[hole7](angular-share/hole08/index.html)

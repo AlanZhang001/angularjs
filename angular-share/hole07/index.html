@@ -13,11 +13,10 @@
 
         <div ng-app="myApp" ng-controller="myControl" ng-cloak>
 
-            <select ng-options="item.name for item in arr"></select><br/>
-            <select ng-model="myName" id="demo2" ng-options="item.value as item.name for item in arr track by item.value"></select><br/>
+            <!-- <select  ng-model="myName" ng-options="item.name for item in arr"></select><br/> -->
+            <select ng-model="myName" ng-change="change(myName)" id="demo2" ng-options="item.value as item.name for item in arr track by item"></select><br/>
             <br/>
             <br/>
-
 
         </div>
         <script type="text/javascript" src="../../jquery-1.12.4.js"></script>
@@ -37,28 +36,42 @@
                     {
                         value:"c3",
                         name:"jin"
+                    },
+                    {
+                        value:"d4",
+                        name:"jarad"
+                    },
+                    {
+                        value:"e5",
+                        name:"tony"
+                    },
+                    {
+                        value: "f6",
+                        name:"jackie"
+                    },{
+                        value: "e53",
+                        name: "tony"
                     }
                 ];
 
-                $scope.arrNum = [
-                    {
-                        value:1,
-                        name:"alanzhang"
-                    },
-                    {
-                        value:2,
-                        name:"cynthia"
-                    },
-                    {
-                        value:3,
-                        name:"jin"
-                    }
-                ];
+                $scope.rand = function(index){
+                    return  index;
+                };
 
+                $scope.change = function(name){
+                    console.log(name);
+                    console.log($scope.myName);
+                };
 
-                $scope.myName = $scope.arr[0];
-                $scope.myNameNum = $scope.arrNum[0];
+                $scope.myName = $scope.arr[5];
+                // $scope.myName = {
+                //     value: "f6",
+                //     name:"jackie"
+                // };
+
             }]);
+
+            // var ss = document.querySelector("#demo2").querySelector("[selected=selected]").value;
 
         </script>
 </html>
