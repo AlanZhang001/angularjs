@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>ng-options ng-model 的问题</title>
+        <title>ng-options</title>
         <style type="text/css">
             [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
                 display: none !important;
@@ -13,7 +13,11 @@
 
         <div ng-app="myApp" ng-controller="myControl" ng-cloak>
 
-            <select ng-options="item.name for item in arr"></select><br/>
+            <select ng-model="myName1" id="demo1" ng-options="item as item.name for item in arr track by item.value" ></select><br/>
+            <select ng-model="myName2" id="demo2" ng-options="item.value as item.name for item in arr track by item" ></select><br/>
+            <select ng-model="myName3" id="demo3" ng-options="item as item.name for item in arr track by item.id" ></select><br/>
+            <select ng-model="myName4" id="demo4" ng-options="item.value as item.name for item in arr track by item.value" ></select><br/>
+            <br/>
 
         </div>
         <script type="text/javascript" src="../../jquery-1.12.4.js"></script>
@@ -21,36 +25,53 @@
         <script type="text/javascript">
             var app = angular.module("myApp",[]);
             app.controller('myControl',["$scope",function ($scope) {
-
+                var item = {
+                    value:"e5",
+                    name:"tony"
+                };
 
                 $scope.arr = [
                     {
+                        id:1,
                         value:"a1",
                         name:"alanzhang"
                     },
                     {
+                        id:2,
                         value:"b2",
                         name:"cynthia"
                     },
                     {
+                        id:3,
                         value:"c3",
                         name:"jin"
                     },
                     {
+                        id:4,
                         value:"d4",
                         name:"jarad"
                     },
                     {
+                        id:5,
+                        value:"e5",
+                        name:"tony"
+                    },
+                    {
+                        id:6,
                         value: "f6",
                         name:"jackie"
+                    },
+                    {
+                        id:7,
+                        value:"e5",
+                        name:"tony"
                     }
                 ];
 
-                // $scope.myName = $scope.arr[5];
-                $scope.myName = {
-                    value: "f6",
-                    name:"jackie"
-                };
+                $scope.myName1 = $scope.arr[5];
+                $scope.myName2 = $scope.arr[5];
+                $scope.myName3 = $scope.arr[5];
+                $scope.myName4 = $scope.arr[5];
 
             }]);
 

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>ng-options ng-model 的问题</title>
+        <title>ng-options</title>
         <style type="text/css">
             [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
                 display: none !important;
@@ -13,7 +13,7 @@
 
         <div ng-app="myApp" ng-controller="myControl" ng-cloak>
 
-            <select ng-options="item.name for item in arr"></select><br/>
+            <select ng-model="myName" ng-options="item.name for item in arr"></select><br/>
 
         </div>
         <script type="text/javascript" src="../../jquery-1.12.4.js"></script>
@@ -21,7 +21,10 @@
         <script type="text/javascript">
             var app = angular.module("myApp",[]);
             app.controller('myControl',["$scope",function ($scope) {
-
+                var item = {
+                    value:"e5",
+                    name:"tony"
+                };
 
                 $scope.arr = [
                     {
@@ -41,16 +44,20 @@
                         name:"jarad"
                     },
                     {
+                        value:"e5",
+                        name:"tony"
+                    },
+                    {
                         value: "f6",
                         name:"jackie"
                     }
                 ];
 
-                // $scope.myName = $scope.arr[5];
-                $scope.myName = {
+                $scope.myName = $scope.arr[5];
+                /*$scope.myName = {
                     value: "f6",
                     name:"jackie"
-                };
+                };*/
 
             }]);
 

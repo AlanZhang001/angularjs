@@ -606,9 +606,9 @@ $scope.footer = "footer.html";
 <p>your name is {{data.name}}</p>
 ```
 
-#### 7.ngOption 中的 value问题。见[hole7](angular-share/hole07/index.html)
+#### 7.ngOption 中的 value问题。
 
-- ng-options 所在select必须通过ng-model与 某个变量进行绑定，否则无效。
+- ng-options 所在select必须通过ng-model与 某个变量进行绑定，否则无效见[hole7.1](angular-share/hole07/index.html)。
 ```
 无效
 <select ng-options="item.name for item in arr">
@@ -623,6 +623,8 @@ $scope.arr = [
     }
 ];
 ```
+- ng-option 空白的问题，ng-option生成成功下拉列表时，第一项会会是空白十分影响体验。给绑定的ng-model设置为 数据源中的某一项即可解决[hole7.2](angular-share/hole07/index2.html)。
+
 
 
 #### 8. 并不是所有的$scope属性的改变都能直接触发渲染[hole7](angular-share/hole08/index.html)
