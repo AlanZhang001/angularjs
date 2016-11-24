@@ -594,6 +594,15 @@ JS:
 $scope.footer = "footer.html";
 ```
 
+或者将路径用引号包裹，告诉angular这是一个真实的路径字符串。
+
+```
+html:
+<ng-include src="'footer'"></ng-include>
+```
+
+
+
 #### 6. 作用域问题[hole6](angular-share/hole06/index.html)
 
 ```
