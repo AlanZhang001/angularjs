@@ -559,6 +559,23 @@ Angular还提供提供了`ng-strict-di`标签来检测查找注入的方式，�
 }
 ```
 
+angular会内置注入上面的ng-cloak的样式，但是当html某个标签标注了ng-csp时，讲不会注入上面的样式文件，因此建议手动加入上面的样式。
+
+```
+// angular不会注入上面的样式
+<div ng-app="myApp" ng-controller="myControl" ng-csp>
+```
+
+阅读源码会发现这个原因，主要鉴于安全原因，angualr在存在ng-csp标签的时候禁止注入内联样式：
+
+![](asserts/csp.png)
+
+> ng-csp 指令用于修改 AngularJS 的安全策略。
+如果使用了 ng-csp 指令， AngularJS 将不会执行eval 函数，这样就无法注入内联样式。
+
+
+
+
 #### 5. ng-include的值问题。见[hole5](angular-share/hole05/index.html)
 
 对于使用过php和jsp 中的include的人来说，很容易联想到到ng-include的用法；但是ng中，使用include包含外部的文件时，src必须为一个ng变量或者表达式，直接在scr中写入路径将不会起作用。

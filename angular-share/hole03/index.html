@@ -13,6 +13,9 @@
         <!-- 如果ng-app有值，则无法自动加载，需要通过js进行加载-->
         <div ng-app="myApp" ng-controller="myControl" ng-cloak>
             <ul>
+                <li ng-repeat='n in [42, 42, 43, 43] ' >item:{{n}}</li>
+            </ul>
+            <ul>
                 <li ng-repeat='n in [42, 42, 43, 43] track by $index' >item:{{n}}</li>
             </ul>
             <ul>
