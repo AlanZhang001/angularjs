@@ -36,3 +36,15 @@
 4. 在chrome console中，鼠标定位只某个具体的ng-scope,通过`angular.element($0).scope()`即可打印出户当前节点绑定的作用域了。
 
 ![](asserts/1.png)
+
+5.  directive scope 的含义
+- @：单向引用父域的值，传递的值必须是字符串且在指令里引用时必须加上{{}}；
+
+- =：双向绑定子域和父域；不需要加加上{{}}；
+
+- &：单向绑定父域，以便在其中运行函数，加上{{}}；如果需要将此值传给原生组件，需要先执行一次，比如
+
+```
+//原生实现需要调用的是onChangeNew方法
+let onChangeNew = @scope.onChange()
+```
